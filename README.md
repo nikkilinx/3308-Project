@@ -1,4 +1,4 @@
-# Project title
+# Resume Sandbox
 
 #### David Havrilla, Nicole Lincoln, Josh White
 **Vision statement:** Organize your resumes and job search materials  
