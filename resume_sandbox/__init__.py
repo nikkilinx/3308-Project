@@ -23,4 +23,9 @@ def create_app(test_config=None):
     def home():
         return 'Hello, Team! Welcome to our new webpage'
 
+    ## Is this how we want to add additional webpages?
+    @app.route('/About)
+    def about():
+	return 'This what you can accomplish on our webpage'
+
     return app
