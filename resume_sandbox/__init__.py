@@ -28,4 +28,7 @@ def create_app(test_config=None):
     def about():
 	    return 'This what you can accomplish on our webpage'
 
+    from . import db
+    db.init_app(app)
+
     return app
