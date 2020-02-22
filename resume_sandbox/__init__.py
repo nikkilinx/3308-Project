@@ -20,13 +20,13 @@ def create_app(test_config=None):
         pass
 
     @app.route('/')
-    def home():
+    def base():
         return render_template('base.html')
 
     ## Is this how we want to add additional webpages?
     @app.route('/about')
     def about():
-	    return 'This is what you can accomplish on our webpage'
+	    return render_template('about.html')
 
     from . import db
     db.init_app(app)
