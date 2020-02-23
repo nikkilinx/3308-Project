@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -20,13 +20,13 @@ def create_app(test_config=None):
         pass
 
     @app.route('/')
-    def home():
-        return 'Hello, Team! Welcome to our new webpage'
+    def base():
+        return render_template('base.html')
 
     ## Is this how we want to add additional webpages?
     @app.route('/about')
     def about():
-	    return 'This what you can accomplish on our webpage'
+	    return render_template('about.html')
 
     from . import db
     db.init_app(app)
