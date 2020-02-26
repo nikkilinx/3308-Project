@@ -23,6 +23,10 @@ def create_app(test_config=None):
     def base():
         return render_template('base.html')
 
+    @app.route('/home')
+    def home():
+        return render_template('home.html')
+
     ## Is this how we want to add additional webpages?
     @app.route('/about')
     def about():
@@ -30,7 +34,7 @@ def create_app(test_config=None):
 
     from . import db
     db.init_app(app)
-    
+
     from . import auth
     app.register_blueprint(auth.bp)
 
