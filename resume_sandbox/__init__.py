@@ -23,9 +23,6 @@ def create_app(test_config=None):
     def base():
         return render_template('base.html')
 
-    @app.route('/home')
-    def home():
-        return render_template('sandbox/home.html')
 
     ## Is this how we want to add additional webpages?
     @app.route('/about')

@@ -1,20 +1,22 @@
 {% extends 'base.html' %}
 
+
 {% block header %}
   <h1>{% block title %}Recently Added Skills{% endblock %}</h1>
-  <a class="action" href="{{ url_for('sandbox.skills') }}">Add New Skills</a>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('sandbox.skills') }}">New Skills</a>
+  {% endif %}
 {% endblock %}
 
 
-
 {% block content %}
-<p>Here are your new skills: </p>
+  <br>
+  <h3>Here are your 5 most recently added skills: </h3>
+
   {% for skill in skills %}
-    <article class="skill">
-      <p class="body">{{ skills['skill'] }}</p>
-    </article>
-    {% if not loop.last %}
-      <hr>
-    {% endif %}
-  {% endfor %}
+
+  <article class="post">
+    <p class="body">{{ skill['skill'] }}</p>
+  </article>
+   {% endfor %}
 {% endblock %}
