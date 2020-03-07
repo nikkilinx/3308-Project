@@ -48,3 +48,12 @@ def skills():
 
 
     return render_template("sandbox/skills.html")
+
+##Export * from skills into html template
+@bp.route("/resume", methods=("GET", "POST"))
+@login_required
+def export():
+    print("hi")
+    db = get_db()
+    db.execute("SELECT * FROM skills")
+    return render_template("sandbox/resume.html")

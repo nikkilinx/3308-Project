@@ -29,6 +29,10 @@ def create_app(test_config=None):
     def about():
 	    return render_template('sandbox/about.html')
 
+    @app.route('/resume')
+    def resume():
+        return render_template('sandbox/resume.html')
+
     from . import db
     db.init_app(app)
 
