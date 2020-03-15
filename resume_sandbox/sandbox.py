@@ -5,10 +5,13 @@ from flask import redirect
 from flask import render_template
 from flask import request
 from flask import url_for
+from flask import Response
+from flask import send_file
 from werkzeug.exceptions import abort
 
 from resume_sandbox.auth import login_required
 from resume_sandbox.db import get_db
+from resume_sandbox.export import export_function
 
 bp = Blueprint("sandbox", __name__)
 
@@ -52,8 +55,13 @@ def skills():
 ##Export * from skills into html template
 @bp.route("/resume", methods=("GET", "POST"))
 @login_required
-def export():
-    print("hi")
-    db = get_db()
-    db.execute("SELECT * FROM skills")
-    return render_template("sandbox/resume.html")
+def resume():
+    if request.method == "GET":
+        db = get_db()
+        sk1 = db.execute("SELECT * FROM skills")
+        fetch = sk1.fetchall()
+        with open('new.txt', 'w') as f:
+            for i in fetch:
+                f.write(i)
+            f.close()
+    return send_file(path, as_attachment=True)
