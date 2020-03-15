@@ -28,6 +28,7 @@ def create_app(test_config=None):
     def about():
 	    return render_template('sandbox/about.html')
 
+    ## Exists but not used at this time
     @app.route('/resume')
     def resume():
         return render_template('sandbox/resume.html')

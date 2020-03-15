@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for, send_file
 )
 from werkzeug.exceptions import abort
 
@@ -24,6 +24,21 @@ def home():
         "ON s.author_id = u.id ORDER BY created"
     )
     openings = op1.fetchall()
+
+    ##Export
+    if request.method == "POST":
+        if request.form["submit_button"] == "Export!!!":
+            db = get_db()
+            sk1 = db.execute("SELECT s.id, skill, author_id, entered, username"
+            " FROM skills s JOIN user u ON s.author_id = u.id")
+            fetch = sk1.fetchone()
+            with open('new.txt', 'w') as f:
+                for i in fetch:
+                    f.write("%s\n" % i)
+                f.close()
+            return send_file('new.txt', mimetype='text/txt', attachment_filename='new.txt', as_attachment=True)
+        else:
+            pass
     return render_template("sandbox/home.html", skills=skills, openings=openings)
 
 ##Skills input
@@ -51,16 +66,6 @@ def skills():
 
 
     return render_template("sandbox/skills.html")
-
-##Export * from skills into html template
-@bp.route("/resume", methods=("GET", "POST"))
-@login_required
-def export():
-    print("hi")
-    db = get_db()
-    db.execute("SELECT * FROM skills")
-    return render_template("sandbox/resume.html")
-
 
 ##Job Openings page
 @bp.route("/openings", methods=("GET", "POST"))

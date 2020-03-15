@@ -20,10 +20,13 @@
   </article>
    {% endfor %}
 
-  <br>
-  <h3>Here you can export your skills to your resume:</h3>
-  <button onclick="location.href = 'resume';" id="myButton" class="float-left submit-button">Export!</button>
-  <br><br>
+   <br>
+   <h3>Here you can export your skills to your resume:</h3>
+   
+   <form method="post">
+     <input type="submit" name="submit_button" value="Export!!!">
+   </form>
+
 {% endblock %}
 
 
