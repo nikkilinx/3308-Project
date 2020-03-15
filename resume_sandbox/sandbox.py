@@ -5,7 +5,6 @@ from flask import redirect
 from flask import render_template
 from flask import request
 from flask import url_for
-from flask import Response
 from flask import send_file
 from werkzeug.exceptions import abort
 
@@ -24,6 +23,19 @@ def home():
         " ORDER BY entered DESC LIMIT 5"
     )
     skills = sk1.fetchall()
+    if request.method == "POST":
+        if request.form["submit_button"] == "Export!!!":
+            db = get_db()
+            sk1 = db.execute("SELECT s.id, skill, author_id, entered, username"
+            " FROM skills s JOIN user u ON s.author_id = u.id")
+            fetch = sk1.fetchone()
+            with open('new.txt', 'w') as f:
+                for i in fetch:
+                    f.write("%s\n" % i)
+                f.close()
+            return send_file('new.txt', mimetype='text/txt', attachment_filename='new.txt', as_attachment=True)
+        else:
+            pass
     return render_template("sandbox/home.html", skills=skills)
 
 
@@ -51,17 +63,3 @@ def skills():
 
 
     return render_template("sandbox/skills.html")
-
-##Export * from skills into html template
-@bp.route("/resume", methods=("GET", "POST"))
-@login_required
-def resume():
-    if request.method == "GET":
-        db = get_db()
-        sk1 = db.execute("SELECT * FROM skills")
-        fetch = sk1.fetchall()
-        with open('new.txt', 'w') as f:
-            for i in fetch:
-                f.write(i)
-            f.close()
-    return send_file(path, as_attachment=True)
