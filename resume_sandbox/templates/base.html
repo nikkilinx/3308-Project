@@ -23,13 +23,22 @@
     </div>
 </nav>
 <section class="content">
-  <header>
-    {% block header %}{% endblock %}
-  </header>
-  {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-  {% block content %}
+  <div>
+    <header class="content_header">
+      {% block header %}{% endblock %}
+    </header>
+    {% for message in get_flashed_messages() %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block content %}
 
-  {% endblock %}
+    {% endblock %}
+  </div>
+  <div>
+    <header class="content_header">
+      {% block header2 %}{% endblock %}
+    </header>
+
+    {% block content2 %}{% endblock %}
+  </div>
 </section>

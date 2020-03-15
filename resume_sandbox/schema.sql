@@ -43,8 +43,9 @@ CREATE TABLE openings (
     company TEXT NOT NULL,
     url TEXT NOT NULL,
     notes TEXT,
-    deadline DATE,
-    applied DATE,
+    todo TEXT,
+    deadline TEXT,
+    applied TEXT,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (author_id) REFERENCES user (id)
 );

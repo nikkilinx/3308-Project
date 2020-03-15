@@ -17,7 +17,14 @@ def home():
         " ORDER BY entered DESC LIMIT 5"
     )
     skills = sk1.fetchall()
-    return render_template("sandbox/home.html", skills=skills)
+
+    op1 = db.execute(
+        "SELECT s.id, author_id, position, company, url, notes, "
+        "deadline, applied, created, todo FROM openings s JOIN user u "
+        "ON s.author_id = u.id ORDER BY created"
+    )
+    openings = op1.fetchall()
+    return render_template("sandbox/home.html", skills=skills, openings=openings)
 
 ##Skills input
 @bp.route("/skills", methods=("GET", "POST"))
@@ -65,6 +72,7 @@ def openings():
         company = request.form["company"]
         url = request.form["url"]
         deadline = request.form["deadline"]
+        todo = request.form["todo"]
         notes = request.form["notes"]
         error = None
 
@@ -82,8 +90,8 @@ def openings():
             print("I have made it here!")
             db.execute(
                 "INSERT INTO openings (position, company, url, "
-                "deadline, notes, author_id) VALUES (?, ?, ?, ?, ?, ?)",
-                (position, company, url, deadline, notes, g.user["id"]),
+                "deadline, notes, todo, author_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (position, company, url, deadline, notes, todo, g.user["id"]),
             )
             db.commit()
             return redirect(url_for("sandbox.home"))

@@ -54,17 +54,66 @@ nav ul li a, nav ul li span, header .action {
   padding: 0.5rem;
 }
 
+.opening_containter {
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid lightgray;
+  box-shadow: 2px 4px lightgray;
+  margin-bottom: 10px;
+  clear: both;
+}
+
+.opening_containter > h2 {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.opening_containter > h3 {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.notes_todo {
+  display: inline-block;
+  margin-right: 44.5%;
+}
+
+.opening_containter > div {
+  display: inline-block;
+  margin-right: 1%;
+  padding: 1%;
+  border: 1px solid lightgray;
+  width: 48%;
+  height: auto;
+  vertical-align: top;
+}
+
+.dot {
+  height: 8px;
+  width: 8px;
+  background-color: darkgray;
+  border-radius: 50%;
+  display: inline-block;
+  margin-bottom: 2px;
+}
+
 .content {
   padding: 0 1rem 1rem;
 }
 
-.content > header {
+.content > div > header {
   border-bottom: 1px solid lightgray;
   display: flex;
   align-items: flex-end;
 }
 
-.content > header h1 {
+.content > .content_header {
+  border-bottom: 1px solid lightgray;
+  display: flex;
+  align-items: flex-end;
+}
+
+.content > div > header h1 {
   flex: auto;
   margin: 1rem 0 0.25rem 0;
 }

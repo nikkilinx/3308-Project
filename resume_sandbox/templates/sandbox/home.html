@@ -39,6 +39,29 @@
 {% block content2 %}
 
   <br>
-  <p>Hello there!</p>
+  <div class="all_opening_containers">
+    {% for op in openings %}
+    <div class="opening_containter">
+      <h2>{{ op['company'] }}</h2>
+      <span class="dot"></span>
+      <h3>{{ op['position'] }}</h3>
+      <br>
+      <p class="notes_todo">To-Do:</p>
+      <p class="notes_todo">Notes:</p>
+      <div>
+        {% for tos in op['todo'].splitlines() %}
+          <p>{{ tos }}</p>
+        {% endfor %}
+      </div>
+      <div>
+        {% for nos in op['notes'].splitlines() %}
+          <p>{{ nos }}</p>
+        {% endfor %}
+      </div>
+      <br><br>
+      <p>Deadline: {{ op['deadline'] }} | Applied: {{ op['applied'] }} | Modified: {{ op['created'] }}</p>
+    </div>
+    {% endfor %}
+  </div>
 
 {% endblock %}
