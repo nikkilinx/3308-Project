@@ -32,11 +32,19 @@ def home():
             sk1 = db.execute("SELECT s.id, skill, author_id, entered, username"
             " FROM skills s JOIN user u ON s.author_id = u.id")
             fetch = sk1.fetchone()
-            with open('new.txt', 'w') as f:
+            sk2 = db.execute("SELECT s.id, author_id, position, company, url, notes, "
+            "deadline, applied, created, todo FROM openings s JOIN user u "
+            "ON s.author_id = u.id")
+            fetch2 = sk2.fetchone()
+            with open('resume.txt', 'w') as f:
+                f.write("HERE ARE YOUR SKILLS:\n")
                 for i in fetch:
                     f.write("%s\n" % i)
+                f.write("\nHERE ARE THE OPENINGS:\n")
+                for j in fetch2:
+                    f.write("%s\n" % j)
                 f.close()
-            return send_file('new.txt', mimetype='text/txt', attachment_filename='new.txt', as_attachment=True)
+            return send_file('resume.txt', mimetype='text/txt', attachment_filename='resume.txt', as_attachment=True)
         else:
             pass
     return render_template("sandbox/home.html", skills=skills, openings=openings)
