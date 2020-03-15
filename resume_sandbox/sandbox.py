@@ -1,10 +1,6 @@
-from flask import Blueprint
-from flask import flash
-from flask import g
-from flask import redirect
-from flask import render_template
-from flask import request
-from flask import url_for
+from flask import (
+    Blueprint, flash, g, redirect, render_template, request, url_for
+)
 from werkzeug.exceptions import abort
 
 from resume_sandbox.auth import login_required
@@ -23,7 +19,7 @@ def home():
     skills = sk1.fetchall()
     return render_template("sandbox/home.html", skills=skills)
 
-
+##Skills input
 @bp.route("/skills", methods=("GET", "POST"))
 @login_required
 def skills():
@@ -57,3 +53,39 @@ def export():
     db = get_db()
     db.execute("SELECT * FROM skills")
     return render_template("sandbox/resume.html")
+
+
+##Job Openings page
+@bp.route("/openings", methods=("GET", "POST"))
+@login_required
+def openings():
+    """Enter new job opening"""
+    if request.method == "POST":
+        position = request.form["position"]
+        company = request.form["company"]
+        url = request.form["url"]
+        deadline = request.form["deadline"]
+        notes = request.form["notes"]
+        error = None
+
+        if not position:
+            error.append("Enter a job opening.")
+        if not company:
+            error.append("Enter a company name.")
+        if not url:
+            error.append("Enter a link to the job opening.")
+
+        if error is not None:
+            flash(error)
+        else:
+            db = get_db()
+            print("I have made it here!")
+            db.execute(
+                "INSERT INTO openings (position, company, url, "
+                "deadline, notes, author_id) VALUES (?, ?, ?, ?, ?, ?)",
+                (position, company, url, deadline, notes, g.user["id"]),
+            )
+            db.commit()
+            return redirect(url_for("sandbox.home"))
+
+    return render_template("sandbox/openings.html")

@@ -7,8 +7,6 @@ CREATE TABLE user (
   password TEXT NOT NULL
 );
 
-
-
 CREATE TABLE resumes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   author_id INTEGER NOT NULL,
@@ -18,7 +16,6 @@ CREATE TABLE resumes (
   notes TEXT NOT NULL,
   FOREIGN KEY (author_id) REFERENCES user (id)
 );
-
 
 CREATE TABLE skills (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -36,5 +33,18 @@ CREATE TABLE experience (
     start_date DATE NOT NULL,
     end_date DATE,
     duties TEXT,
+    FOREIGN KEY (author_id) REFERENCES user (id)
+);
+
+CREATE TABLE openings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    author_id INTEGER NOT NULL,
+    position TEXT NOT NULL,
+    company TEXT NOT NULL,
+    url TEXT NOT NULL,
+    notes TEXT,
+    deadline DATE,
+    applied DATE,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (author_id) REFERENCES user (id)
 );

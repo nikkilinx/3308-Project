@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Add New Opening{% endblock %}</h1>
+{% endblock %}
+
+
+{% block content %}
+  <form method="post">
+    <label for="position">Position</label>
+    <input name="position" id="position" value="{{ request.form['position'] }}" required>
+    <label for="company">Company</label>
+    <input name="company" id="company" value="{{ request.form['company'] }}" required>
+    <label for="url">Posting URL</label>
+    <input name="url" id="url" value="{{ request.form['url'] }}" required>
+    <label for="deadline">Application Deadline</label>
+    <input name="deadline" id="deadline" value="{{ request.form['deadline'] }}"">
+    <label for="notes">Notes</label>
+    <textarea name="notes" id="notes">{{ request.form['notes'] }}</textarea>
+    <input type="submit" value="Create">
+  </form>
+
+<a href="{{url_for('sandbox.home')}}">Go home</a>
+
+{% endblock %}
