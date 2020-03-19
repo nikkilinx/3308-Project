@@ -1,3 +1,6 @@
+####NAMES: Nicole Lincoln, Josh White, David Havrilla
+####PROJECT: Resume Sandbox
+
 # Automatic Test Instructions:
 1. Locate the file 'test_db.py' in the ./tests directory.
 2. Execute 'test_db.py' by running the following command in the same directory:
