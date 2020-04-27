@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Here is your Resume - {% endblock %}</h1>
+{% endblock %}
+
+
+{% block content %}
+
+<a href="new.txt" download>Download Resume</a>
+
+<br>
+<form method="get">
+    <label for="resume">Resume</label>
+  </form>
+<br>
+
+<a href="{{url_for('sandbox.home')}}">Go home</a>
+
+{% endblock %}

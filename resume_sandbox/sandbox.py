@@ -25,24 +25,34 @@ def home():
     )
     openings = op1.fetchall()
 
-    ##Export
+    ##Export to .txt
     if request.method == "POST":
         if request.form["submit_button"] == "Export!!!":
             db = get_db()
-            sk1 = db.execute("SELECT s.id, skill, author_id, entered, username"
-            " FROM skills s JOIN user u ON s.author_id = u.id")
-            fetch = sk1.fetchone()
-            sk2 = db.execute("SELECT s.id, author_id, position, company, url, notes, "
-            "deadline, applied, created, todo FROM openings s JOIN user u "
-            "ON s.author_id = u.id")
+
+            ##pull skills from db for resume
+            sk1 = db.execute("SELECT skill FROM skills")
+            fetch1 = sk1.fetchone()##only returns one skill; fetchmany()?
+
+            ##pull job title from db for resume
+            sk2 = db.execute("SELECT position FROM openings")
             fetch2 = sk2.fetchone()
+
+            ##pull company name from db for resume
+            sk3 = db. execute("SELECT company FROM openings")
+            fetch3 = sk3.fetchone()
+
             with open('resume.txt', 'w') as f:
-                f.write("HERE ARE YOUR SKILLS:\n")
-                for i in fetch:
+                f.write("Skills:\n")
+                for i in fetch1:
                     f.write("%s\n" % i)
-                f.write("\nHERE ARE THE OPENINGS:\n")
+                f.write("\nJob Openings:\n")
                 for j in fetch2:
-                    f.write("%s\n" % j)
+                    f.write("%s at " % j)
+                    for k in fetch3:
+                        f.write("%s\n" % k)
+                f.write("\nWork History:\n")
+                f.write("\nEducation:\n")
                 f.close()
             return send_file('resume.txt', mimetype='text/txt', attachment_filename='resume.txt', as_attachment=True)
         else:

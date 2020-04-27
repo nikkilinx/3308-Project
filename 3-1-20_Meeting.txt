@@ -1,0 +1,19 @@
+Name/Personal Info/Address?
+
+Work Experience**
+
+Skills**
+	Note: medium-sized textbox. Enter skills individually.
+	Entry, View, Export
+
+Education?
+
+Awards?
+
+Affiliation?
+
+
+Use checkboxes based on desired skills to include.
+Copy into resume template.
+
+Comment box for: date I applied, side notes, use for interview prep...
