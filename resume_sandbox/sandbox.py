@@ -7,7 +7,8 @@ from resume_sandbox.auth import login_required
 from resume_sandbox.db import get_db
 
 import sys
-import sqlite3
+import os
+import psycopg2
 
 bp = Blueprint("sandbox", __name__)
 
