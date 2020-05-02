@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Experience{% endblock %}
+{% block header %}
+  <h1>Add New Experiences</h1>
+{% endblock %}
+
+
+{% block content %}
+  <form method="post">
+    <label for="title">Title</label>
+    <input name="title" id="title" value="{{ request.form['title'] }}" required>
+    <label for="company">Company</label>
+    <input name="company" id="company" value="{{ request.form['company'] }}" required>
+    <label for="start">Start Date</label>
+    <input name="start" id="start" value="{{ request.form['start'] }}" placeholder="YYYY-DD-MM"required>
+    <label for="end">End Date (if any)</label>
+    <input name="end" id="end" value="{{ request.form['end'] }}"placeholder="YYYY-DD-MM"">
+    <label for="todo">To-Do</label>
+    <textarea name="todo" id="todo">{{ request.form['todo'] }}</textarea>
+    <label for="duties">Duties</label>
+    <textarea name="duties" id="duties">{{ request.form['duties'] }}</textarea>
+    <input type="submit" value="Add">
+  </form>
+
+<a href="{{url_for('sandbox.home')}}">Home</a>
+
+{% endblock %}
