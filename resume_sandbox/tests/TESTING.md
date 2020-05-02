@@ -20,7 +20,7 @@
 > Testing 'skills' table functionality. . .<br>
 > Passed!<br>
 > .<br>
-> Testing 'user' table functionality. . .<br>
+> Testing 'siteuser' table functionality. . .<br>
 > Passed!<br>
 > .<br>
 > ----------------------------------------------------------------------<br>

@@ -11,29 +11,27 @@ to verify the capabilities of the Resume Sandbox database defined in
 
 """
 
-import sqlite3
+import psycopg2
 
 def create(dbname):
-    conn = sqlite3.connect(
-        dbname, detect_types=sqlite3.PARSE_DECLTYPES
-    )
-    conn.row_factory = sqlite3.Row
-
-    with open('../schema.sql') as f:
-        conn.executescript(f.read())
-
-    conn.commit()
+    conn = psycopg2.connect(dbname)
+    conn.autocommit = True
+    curr = conn.cursor()
+    curr.execute(open('../schema.sql','r', encoding='utf-8').read())
     conn.close()
 
+def delete(dbname):
+    pass
+
 def populate(dbname):
-    conn = sqlite3.connect(dbname)
+    conn = psycopg2.connect(dbname)
     c = conn.cursor()
 
     # Populate user table
-    c.execute("INSERT INTO user (username, password) "
+    c.execute("INSERT INTO siteuser (username, password) "
             "VALUES ('Josh', 'P@$$W0RD');"
     )
-    c.execute("INSERT INTO user (username, password) "
+    c.execute("INSERT INTO siteuser (username, password) "
             "VALUES ('David', '123456')"
     )
 
@@ -41,14 +39,14 @@ def populate(dbname):
     c.execute("INSERT INTO resumes "
             "(author_id, title, file_path, notes) "
             "VALUES "
-            "((SELECT id FROM user WHERE username='Josh'), "
+            "((SELECT id FROM siteuser WHERE username='Josh'), "
             "'My Resume', 'Users/Documents/Resumes/', "
             "'This is my first resume!');"
     )
     c.execute("INSERT INTO resumes "
             "(author_id, title, file_path, notes) "
             "VALUES "
-            "((SELECT id FROM user WHERE username='David'), "
+            "((SELECT id FROM siteuser WHERE username='David'), "
             "'WIP1', 'D:/Docs/Resumes/', "
             "'This resume is a work in progress');"
     )
@@ -57,13 +55,13 @@ def populate(dbname):
     c.execute("INSERT INTO skills "
             "(author_id, skill) "
             "VALUES "
-            "((SELECT id FROM user WHERE username='Josh'), "
+            "((SELECT id FROM siteuser WHERE username='Josh'), "
             "'Catfishing');"
     )
     c.execute("INSERT INTO skills "
             "(author_id, skill) "
             "VALUES "
-            "((SELECT id FROM user WHERE username='David'), "
+            "((SELECT id FROM siteuser WHERE username='David'), "
             "'Juggling');"
     )
 
@@ -71,7 +69,7 @@ def populate(dbname):
     c.execute("INSERT INTO openings "
             "(author_id, position, company, url, notes, "
             "todo, deadline, applied) VALUES "
-            "((SELECT id FROM user WHERE username='David'), "
+            "((SELECT id FROM siteuser WHERE username='David'), "
             "'Lion Tamer', 'Barnum and Baileys', 'https://www.linkedin.com/', "
             "'I really like big cats!', 'Need to learn how to tame lions first.', "
             "'April 1', 'March 31');"
@@ -79,11 +77,10 @@ def populate(dbname):
     c.execute("INSERT INTO openings "
             "(author_id, position, company, url, notes, "
             "todo, deadline, applied) VALUES "
-            "((SELECT id FROM user WHERE username='Josh'), "
+            "((SELECT id FROM siteuser WHERE username='Josh'), "
             "'Pencil Pusher', 'Dimmsdale Pencil Co', 'https://www.geeksforgeeks.org/', "
             "'This job has great benefits.', 'Identify references', "
             "'April 22', 'February 14');"
     )
 
-    conn.commit()
     conn.close()

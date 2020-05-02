@@ -16,13 +16,13 @@
   {% for skill in skills %}
 
   <article class="post">
-    <p class="body">{{ skill['skill'] }}</p>
+    <p class="body">{{ skill[2] }}</p>
   </article>
    {% endfor %}
 
    <br>
    <h3>Here you can export your skills to your resume:</h3>
-   
+
    <form method="post">
      <input type="submit" name="submit_button" value="Export!!!">
    </form>
@@ -45,24 +45,24 @@
   <div class="all_opening_containers">
     {% for op in openings %}
     <div class="opening_containter">
-      <h2>{{ op['company'] }}</h2>
+      <h2>{{ op[3] }}</h2>
       <span class="dot"></span>
-      <h3>{{ op['position'] }}</h3>
+      <h3>{{ op[2] }}</h3>
       <br>
       <p class="notes_todo">To-Do:</p>
       <p class="notes_todo">Notes:</p>
       <div>
-        {% for tos in op['todo'].splitlines() %}
+        {% for tos in op[6].splitlines() %}
           <p>{{ tos }}</p>
         {% endfor %}
       </div>
       <div>
-        {% for nos in op['notes'].splitlines() %}
+        {% for nos in op[5].splitlines() %}
           <p>{{ nos }}</p>
         {% endfor %}
       </div>
       <br><br>
-      <p>Deadline: {{ op['deadline'] }} | Applied: {{ op['applied'] }} | Modified: {{ op['created'] }}</p>
+      <p>Deadline: {{ op[7] }} | Applied: {{ op[8] }} | Modified: {{ op[9] }}</p>
     </div>
     {% endfor %}
   </div>

@@ -10,37 +10,37 @@ bp = Blueprint("sandbox", __name__)
 
 @bp.route("/home", methods=("GET", "POST"))
 def home():
-    db = get_db()
-    sk1 = db.execute(
-        "SELECT s.id, skill, author_id, entered, username"
-        " FROM skills s JOIN user u ON s.author_id = u.id"
+    curr = get_db().cursor()
+    curr.execute(
+        "SELECT s.id, author_id, skill, entered, username"
+        " FROM skills s JOIN siteuser u ON s.author_id = u.id"
         " ORDER BY entered DESC LIMIT 5"
     )
-    skills = sk1.fetchall()
+    skills = curr.fetchall()
 
-    op1 = db.execute(
+    curr.execute(
         "SELECT s.id, author_id, position, company, url, notes, "
-        "deadline, applied, created, todo FROM openings s JOIN user u "
+        "todo, deadline, applied, created FROM openings s JOIN siteuser u "
         "ON s.author_id = u.id ORDER BY created"
     )
-    openings = op1.fetchall()
+    openings = curr.fetchall()
 
     ##Export to .txt
     if request.method == "POST":
         if request.form["submit_button"] == "Export!!!":
-            db = get_db()
+            #curr = get_db().cursor()
 
             ##pull skills from db for resume
-            sk1 = db.execute("SELECT skill FROM skills")
-            fetch1 = sk1.fetchone()##only returns one skill; fetchmany()?
+            curr.execute("SELECT skill FROM skills")
+            fetch1 = curr.fetchone()##only returns one skill; fetchmany()?
 
             ##pull job title from db for resume
-            sk2 = db.execute("SELECT position FROM openings")
-            fetch2 = sk2.fetchone()
+            curr.execute("SELECT position FROM openings")
+            fetch2 = curr.fetchone()
 
             ##pull company name from db for resume
-            sk3 = db. execute("SELECT company FROM openings")
-            fetch3 = sk3.fetchone()
+            curr.execute("SELECT company FROM openings")
+            fetch3 = curr.fetchone()
 
             with open('resume.txt', 'w') as f:
                 f.write("Skills:\n")
@@ -74,12 +74,12 @@ def skills():
         if error is not None:
             flash(error)
         else:
-            db = get_db()
-            db.execute(
-                "INSERT INTO skills (skill, author_id) VALUES (?, ?)",
-                (skill, g.user["id"]),
+            curr = get_db().cursor()
+            curr.execute(
+                "INSERT INTO skills (skill, author_id) VALUES (%s, %s)",
+                (skill, g.user[0]),
             )
-            db.commit()
+            #db.commit()
             return redirect(url_for("sandbox.home"))
 
 
@@ -109,14 +109,14 @@ def openings():
         if error is not None:
             flash(error)
         else:
-            db = get_db()
-            print("I have made it here!")
-            db.execute(
+            curr = get_db().cursor()
+            #print("I have made it here!")
+            curr.execute(
                 "INSERT INTO openings (position, company, url, "
-                "deadline, notes, todo, author_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                (position, company, url, deadline, notes, todo, g.user["id"]),
+                "deadline, notes, todo, author_id) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                (position, company, url, deadline, notes, todo, g.user[0]),
             )
-            db.commit()
+            #db.commit()
             return redirect(url_for("sandbox.home"))
 
     return render_template("sandbox/openings.html")

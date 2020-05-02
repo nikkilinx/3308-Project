@@ -14,9 +14,9 @@ database defined in 'schema.sql'. To execute this script, simply type:
 import unittest
 import build_db
 import os
-import sqlite3
+import psycopg2
 
-db = 'test.db'
+db = "dbname='test' user='dbuser' host='localhost'"
 
 class SandboxdbTestCase(unittest.TestCase):
 
@@ -36,15 +36,15 @@ class SandboxdbTestCase(unittest.TestCase):
     	os.remove(db)
 
     def test_user(self):
-        print("\nTesting 'user' table functionality. . .")
-        conn = sqlite3.connect(db)
+        print("\nTesting 'siteuser' table functionality. . .")
+        conn = psycopg2.connect(db)
         c = conn.cursor()
         result = 'David'
-        c.execute("SELECT username FROM user WHERE id=2;")
+        c.execute("SELECT username FROM siteuser WHERE id=2;")
         test_val = c.fetchone()
         self.assertEqual(result, test_val[0], "'result' does not match expected user username")
         result = 'P@$$W0RD'
-        c.execute("SELECT password FROM user WHERE id=1;")
+        c.execute("SELECT password FROM siteuser WHERE id=1;")
         test_val = c.fetchone()
         self.assertEqual(result, test_val[0], "'result' does not match expected user password")
         conn.close()
@@ -52,7 +52,7 @@ class SandboxdbTestCase(unittest.TestCase):
 
     def test_resumes(self):
         print("\nTesting 'resumes' table functionality. . .")
-        conn = sqlite3.connect(db)
+        conn = psycopg2.connect(db)
         c = conn.cursor()
         result = 1
         c.execute("SELECT author_id FROM resumes WHERE id=1;")
@@ -75,7 +75,7 @@ class SandboxdbTestCase(unittest.TestCase):
 
     def test_skills(self):
         print("\nTesting 'skills' table functionality. . .")
-        conn = sqlite3.connect(db)
+        conn = psycopg2.connect(db)
         c = conn.cursor()
         result = 2
         c.execute("SELECT author_id FROM skills WHERE id=2;")
@@ -90,7 +90,7 @@ class SandboxdbTestCase(unittest.TestCase):
 
     def test_openings(self):
         print("\nTesting 'openings' table functionality. . .")
-        conn = sqlite3.connect(db)
+        conn = psycopg2.connect(db)
         c = conn.cursor()
         result = 2
         c.execute("SELECT author_id FROM openings WHERE id=1;")
