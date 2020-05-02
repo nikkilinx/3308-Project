@@ -6,6 +6,9 @@ from werkzeug.exceptions import abort
 from resume_sandbox.auth import login_required
 from resume_sandbox.db import get_db
 
+import sys
+import sqlite3
+
 bp = Blueprint("sandbox", __name__)
 
 @bp.route("/home", methods=("GET", "POST"))
@@ -39,7 +42,7 @@ def home():
             fetch2 = sk2.fetchone()
 
             ##pull company name from db for resume
-            sk3 = db. execute("SELECT company FROM openings")
+            sk3 = db.execute("SELECT company FROM openings")
             fetch3 = sk3.fetchone()
 
             with open('resume.txt', 'w') as f:
@@ -48,6 +51,8 @@ def home():
                     f.write("%s\n" % i)
                 f.write("\nJob Openings:\n")
                 for j in fetch2:
+                    if (fetch2 == None):
+                        break
                     f.write("%s at " % j)
                     for k in fetch3:
                         f.write("%s\n" % k)
