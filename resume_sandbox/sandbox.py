@@ -84,8 +84,8 @@ def skills():
                 "INSERT INTO skills (skill, author_id) VALUES (%s, %s)",
                 (skill, g.user[0]),
             )
-            #db.commit()
-            return redirect(url_for("sandbox.home"))
+            db.commit()
+            return redirect(url_for("sandbox.skills"))
 
 
     return render_template("sandbox/skills.html")
@@ -125,3 +125,39 @@ def openings():
             return redirect(url_for("sandbox.home"))
 
     return render_template("sandbox/openings.html")
+
+##Add experience page
+@bp.route("/experience", methods=("GET", "POST"))
+@login_required
+def experience():
+    """Enter new job experience"""
+    if request.method == "POST":
+        title = request.form["title"]
+        company = request.form["company"]
+        start = request.form["start"]
+        end = request.form["end"]
+        duties = request.form["duties"]
+        error = None
+
+        if not title:
+            error.append("Enter a job title.")
+        if not company:
+            error.append("Enter a company name.")
+        if not start:
+            error.append("Enter the start date for this position.")
+        if not duties:
+            error.append("Enter the job duties for this position.")
+
+        if error is not None:
+            flash(error)
+        else:
+            db = get_db()
+            db.execute(
+                "INSERT INTO experience (title, company, start_date, "
+                "end_date, duties, author_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (title, company, start, end_date, duties, g.user["id"]),
+            )
+            db.commit()
+            return redirect(url_for("sandbox.experience"))
+
+    return render_template("sandbox/experience.html")
