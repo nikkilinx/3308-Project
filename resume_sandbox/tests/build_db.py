@@ -13,19 +13,11 @@ to verify the capabilities of the Resume Sandbox database defined in
 
 import psycopg2
 
-def create(dbname):
-    conn = psycopg2.connect(dbname)
-    conn.autocommit = True
-    curr = conn.cursor()
-    curr.execute(open('../schema.sql','r', encoding='utf-8').read())
-    conn.close()
+def populate(db):
 
-def delete(dbname):
-    pass
-
-def populate(dbname):
-    conn = psycopg2.connect(dbname)
-    c = conn.cursor()
+    c = db.cursor()
+    with open('../schema.sql','r', encoding='utf-8') as f:
+        c.execute(f.read())
 
     # Populate user table
     c.execute("INSERT INTO siteuser (username, password) "
@@ -83,4 +75,4 @@ def populate(dbname):
             "'April 22', 'February 14');"
     )
 
-    conn.close()
+    db.commit()
