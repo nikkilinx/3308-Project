@@ -15,8 +15,6 @@
     <input name="start" id="start" value="{{ request.form['start'] }}" placeholder="YYYY-DD-MM"required>
     <label for="end">End Date (if any)</label>
     <input name="end" id="end" value="{{ request.form['end'] }}"placeholder="YYYY-DD-MM"">
-    <label for="todo">To-Do</label>
-    <textarea name="todo" id="todo">{{ request.form['todo'] }}</textarea>
     <label for="duties">Duties</label>
     <textarea name="duties" id="duties">{{ request.form['duties'] }}</textarea>
     <input type="submit" value="Add">

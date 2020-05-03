@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for, send_file
+    Blueprint, flash, g, redirect, render_template, request, url_for, send_file, send_from_directory
 )
 from werkzeug.exceptions import abort
 
@@ -7,7 +7,8 @@ from resume_sandbox.auth import login_required
 from resume_sandbox.db import get_db
 
 import sys
-import sqlite3
+import psycopg2
+import os
 
 bp = Blueprint("sandbox", __name__)
 
@@ -31,38 +32,55 @@ def home():
     ##Export to .txt
     if request.method == "POST":
         if request.form["submit_button"] == "Export!!!":
-            #curr = get_db().cursor()
 
             ##pull skills from db for resume
-            curr.execute("SELECT skill FROM skills")
-            fetch1 = curr.fetchone()##only returns one skill; fetchmany()?
+            curr.execute(
+            "SELECT skill, author_id FROM skills s"
+            " JOIN siteuser u ON s.author_id = u.id"
+            )
+            fetch1 = curr.fetchall()
 
             ##pull job title from db for resume
-            curr.execute("SELECT position FROM openings")
-            fetch2 = curr.fetchone()
+            curr.execute(
+            "SELECT position, author_id FROM openings o"
+            " JOIN siteuser u ON o.author_id = u.id"
+            )
+            fetch2 = curr.fetchall()
 
             ##pull company name from db for resume
-            curr.execute("SELECT company FROM openings")
-            fetch3 = curr.fetchone()
-
-            with open('resume.txt', 'w') as f:
+            curr.execute(
+            "SELECT company, author_id FROM openings o"
+            " JOIN siteuser u ON o.author_id = u.id"
+            )
+            fetch3 = curr.fetchall()
+            p = os.getcwd()
+            file = os.path.join(p, 'temp.txt')
+            if os.path.exists(file):
+                os.remove(file)
+            with open(file, 'w') as f:
                 f.write("Skills:\n")
                 for i in fetch1:
-                    f.write("%s\n" % i)
+                    f.write("%s\n" % i[0])
                 f.write("\nJob Openings:\n")
                 for j in fetch2:
                     if (fetch2 == None):
                         break
-                    f.write("%s at " % j)
+                    f.write("%s at " % j[0])
                     for k in fetch3:
-                        f.write("%s\n" % k)
+                        f.write("%s\n" % k[0])
                 f.write("\nWork History:\n")
                 f.write("\nEducation:\n")
-                f.close()
-            return send_file('resume.txt', mimetype='text/txt', attachment_filename='resume.txt', as_attachment=True)
+            return_resume(file)
+            os.remove(file)
         else:
             pass
     return render_template("sandbox/home.html", skills=skills, openings=openings)
+
+def return_resume(fname):
+    if os.path.exists(fname):
+        return send_file(fname, attachment_filename='resumt.txt', as_attachment=True)
+    else:
+        pass
 
 ##Skills input
 @bp.route("/skills", methods=("GET", "POST"))

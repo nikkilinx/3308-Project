@@ -7,10 +7,10 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     #url = urlparse.urlparse(os.environ.get('DATABASE_URL'))
     #db = "dbname=%s user=%s password=%s host=%s" % (url.path[1:], url.username, url.password, url.hostname)
-    db = "dbname='resume_sandbox' user='dbuser' password='dbpass' host='localhost'"
+    db = "dbname='resume_sandbox' user='dbuser' host='localhost'"
     app.config.from_mapping(
         SECRET_KEY = '3308',
-        DATABASE = db#os.path.join(app.instance_path, 'resume_sandbox.sqlite'),
+        DATABASE = db
     )
 
     if test_config is None:
