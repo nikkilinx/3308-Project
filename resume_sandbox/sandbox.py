@@ -23,6 +23,14 @@ def home():
     skills = curr.fetchall()
 
     curr.execute(
+        "SELECT e.id, author_id, title, company, start_date"
+        " FROM experience e JOIN siteuser u ON e.author_id = u.id"
+        " ORDER BY start_date DESC LIMIT 1"
+    )
+
+    experience = curr.fetchall()
+
+    curr.execute(
         "SELECT s.id, author_id, position, company, url, notes, "
         "todo, deadline, applied, created FROM openings s JOIN siteuser u "
         "ON s.author_id = u.id ORDER BY created"
@@ -102,7 +110,7 @@ def skills():
                 "INSERT INTO skills (skill, author_id) VALUES (%s, %s)",
                 (skill, g.user[0]),
             )
-            db.commit()
+            # db.commit()
             return redirect(url_for("sandbox.skills"))
 
 
@@ -169,13 +177,13 @@ def experience():
         if error is not None:
             flash(error)
         else:
-            db = get_db()
-            db.execute(
+            curr = get_db().cursor()
+            curr.execute(
                 "INSERT INTO experience (title, company, start_date, "
-                "end_date, duties, author_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                (title, company, start, end_date, duties, g.user["id"]),
+                "end_date, duties, author_id) VALUES (%s, %s, %s, %s, %s, %s)",
+                (title, company, start, end, duties, g.user[0]),
             )
-            db.commit()
+            # db.commit()
             return redirect(url_for("sandbox.experience"))
 
     return render_template("sandbox/experience.html")
