@@ -1,1 +1,1 @@
-web: gunicorn wsgi:app
+web: gunicorn resume_sandbox.wsgi:app
