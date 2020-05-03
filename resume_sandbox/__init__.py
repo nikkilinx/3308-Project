@@ -12,7 +12,7 @@ def create_app(test_config=None):
     password={url.password},
     host={url.hostname},
     port={url.port},
-    sslmode='require'"""
+    sslmode=require"""
     #db = "dbname='resume_sandbox' user='dbuser' host='localhost'"
     app.config.from_mapping(
         SECRET_KEY = '3308',
