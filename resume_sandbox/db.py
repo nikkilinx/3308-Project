@@ -13,6 +13,7 @@ def get_db():
             #detect_types=sqlite3.PARSE_DECLTYPES
         )
         #g.db.row_factory = sqlite3.Row
+        g.db.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         g.db.autocommit = True
     return g.db
 
