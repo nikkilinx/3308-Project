@@ -7,7 +7,12 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     url = urlparse(os.environ['DATABASE_URL'])
     #db = "dbname=%s user=%s password=%s host=%s" % (url.path[1:], url.username, url.password, url.hostname)
-    db = f"dbname={url.path[1:]}, user={url.username}, password={url.password}, host={url.hostname}, port={url.port}"
+    db = f"""dbname={url.path[1:]},
+    user={url.username},
+    password={url.password},
+    host={url.hostname},
+    port={url.port},
+    sslmode='require'"""
     #db = "dbname='resume_sandbox' user='dbuser' host='localhost'"
     app.config.from_mapping(
         SECRET_KEY = '3308',
