@@ -15,8 +15,7 @@ import unittest
 import build_db
 import os
 import psycopg2
-
-db = "dbname='test' user='dbuser' host='localhost'"
+import testing.postgresql
 
 class SandboxdbTestCase(unittest.TestCase):
 
@@ -29,16 +28,20 @@ class SandboxdbTestCase(unittest.TestCase):
         pass
 
     def setUp(self):
-        build_db.create(db)
-        build_db.populate(db)
+        self.postgresql = testing.postgresql.Postgresql()
+        self.postgresql.db_conf = self.postgresql.dsn()
+        self.postgresql.con = psycopg2.connect(**self.postgresql.db_conf)
+        self.postgresql.con.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
+        build_db.populate(self.postgresql.con)
+
 
     def tearDown(self):
-    	os.remove(db)
+        self.postgresql.con.close()
+        self.postgresql.stop()
 
     def test_user(self):
         print("\nTesting 'siteuser' table functionality. . .")
-        conn = psycopg2.connect(db)
-        c = conn.cursor()
+        c = self.postgresql.con.cursor()
         result = 'David'
         c.execute("SELECT username FROM siteuser WHERE id=2;")
         test_val = c.fetchone()
@@ -47,13 +50,11 @@ class SandboxdbTestCase(unittest.TestCase):
         c.execute("SELECT password FROM siteuser WHERE id=1;")
         test_val = c.fetchone()
         self.assertEqual(result, test_val[0], "'result' does not match expected user password")
-        conn.close()
         print("Passed!")
 
     def test_resumes(self):
         print("\nTesting 'resumes' table functionality. . .")
-        conn = psycopg2.connect(db)
-        c = conn.cursor()
+        c = self.postgresql.con.cursor()
         result = 1
         c.execute("SELECT author_id FROM resumes WHERE id=1;")
         test_val = c.fetchone()
@@ -70,13 +71,11 @@ class SandboxdbTestCase(unittest.TestCase):
         c.execute("SELECT notes FROM resumes WHERE id=1;")
         test_val = c.fetchone()
         self.assertEqual(result, test_val[0], "'result' does not match expected resumes notes")
-        conn.close()
         print("Passed!")
 
     def test_skills(self):
         print("\nTesting 'skills' table functionality. . .")
-        conn = psycopg2.connect(db)
-        c = conn.cursor()
+        c = self.postgresql.con.cursor()
         result = 2
         c.execute("SELECT author_id FROM skills WHERE id=2;")
         test_val = c.fetchone()
@@ -85,13 +84,11 @@ class SandboxdbTestCase(unittest.TestCase):
         c.execute("SELECT skill FROM skills WHERE id=1;")
         test_val = c.fetchone()
         self.assertEqual(result, test_val[0], "'result' does not match expected skills skill")
-        conn.close()
         print("Passed!")
 
     def test_openings(self):
         print("\nTesting 'openings' table functionality. . .")
-        conn = psycopg2.connect(db)
-        c = conn.cursor()
+        c = self.postgresql.con.cursor()
         result = 2
         c.execute("SELECT author_id FROM openings WHERE id=1;")
         test_val = c.fetchone()
@@ -124,7 +121,6 @@ class SandboxdbTestCase(unittest.TestCase):
         c.execute("SELECT applied FROM openings WHERE id=2;")
         test_val = c.fetchone()
         self.assertEqual(result, test_val[0], "'result' does not match expected openings applied")
-        conn.close()
         print("Passed!")
 
 if __name__ == '__main__':
