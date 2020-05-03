@@ -23,12 +23,13 @@ def home():
     skills = curr.fetchall()
 
     curr.execute(
-        "SELECT e.id, author_id, title, company, start_date"
-        " FROM experience e JOIN siteuser u ON e.author_id = u.id"
-        " ORDER BY start_date DESC LIMIT 1"
+        "SELECT s.id, author_id, title, company, duties"
+        " FROM experience s JOIN siteuser u ON s.author_id = u.id"
+        " LIMIT 1"
     )
 
     experience = curr.fetchall()
+    print(experience)
 
     curr.execute(
         "SELECT s.id, author_id, position, company, url, notes, "
@@ -82,7 +83,7 @@ def home():
             os.remove(file)
         else:
             pass
-    return render_template("sandbox/home.html", skills=skills, openings=openings)
+    return render_template("sandbox/home.html", skills=skills, openings=openings, experience=experience)
 
 def return_resume(fname):
     if os.path.exists(fname):

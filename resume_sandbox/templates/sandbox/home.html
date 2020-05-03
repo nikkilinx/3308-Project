@@ -3,9 +3,6 @@
 
 {% block header %}
   <h1>{% block title %}Recently Added Skills{% endblock %}</h1>
-  {% if g.user %}
-    <a class="action" href="{{ url_for('sandbox.skills') }}">New Skills</a>
-  {% endif %}
 {% endblock %}
 
 
@@ -13,12 +10,32 @@
   <br>
   <h3>Here are your 5 most recently added skills: </h3>
 
+  {% if g.user %}
+    <a class="action" style ="float: right" href="{{ url_for('sandbox.skills') }}">New Skills</a>
+  {% endif %}
+
   {% for skill in skills %}
 
   <article class="post">
     <p class="body">{{ skill[2] }}</p>
   </article>
    {% endfor %}
+   <br>
+   <h3>Most recent experience: </h3>
+
+   {% if g.user %}
+     <a class="action" style ="float: right" href="{{ url_for('sandbox.experience') }}">New Experience</a>
+   {% endif %}
+
+  {% for exp in experience %}
+   <article class="post">
+     <p class="body"><b><u>{{ exp[2] }} at {{ exp[3] }} </u></b></p>
+     <p class="body">{{exp[4]}}</p>
+   </article>
+   {% endfor %}
+
+
+
 
    <br>
    <h3>Here you can export your skills to your resume:</h3>

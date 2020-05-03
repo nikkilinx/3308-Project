@@ -12,9 +12,9 @@
     <label for="company">Company</label>
     <input name="company" id="company" value="{{ request.form['company'] }}" required>
     <label for="start">Start Date</label>
-    <input name="start" id="start" value="{{ request.form['start'] }}" placeholder="YYYY-DD-MM"required>
+    <input name="start" id="start" value="{{ request.form['start'] }}" placeholder="YYYY-DD-MM" required>
     <label for="end">End Date (if any)</label>
-    <input name="end" id="end" value="{{ request.form['end'] }}"placeholder="YYYY-DD-MM"">
+    <input name="end" id="end" value="{{ request.form['end'] }}"placeholder="YYYY-DD-MM" required>
     <label for="duties">Duties</label>
     <textarea name="duties" id="duties">{{ request.form['duties'] }}</textarea>
     <input type="submit" value="Add">
