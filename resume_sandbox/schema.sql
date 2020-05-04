@@ -34,7 +34,7 @@ CREATE TABLE experience (
     title TEXT NOT NULL,
     company TEXT NOT NULL,
     start_date DATE NOT NULL,
-    end_date DATE,
+    end_date DATE NOT NULL,
     duties TEXT,
     FOREIGN KEY (author_id) REFERENCES siteuser (id)
 );

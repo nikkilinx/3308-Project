@@ -24,9 +24,10 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+
     @app.route('/')
-    def base():
-        return render_template('base.html')
+    def index():
+        return render_template('sandbox/index.html')
 
     ## Is this how we want to add additional webpages?
     @app.route('/about')

@@ -23,6 +23,15 @@ def home():
     skills = curr.fetchall()
 
     curr.execute(
+        "SELECT s.id, author_id, title, company, duties"
+        " FROM experience s JOIN siteuser u ON s.author_id = u.id"
+        " LIMIT 1"
+    )
+
+    experience = curr.fetchall()
+    print(experience)
+
+    curr.execute(
         "SELECT s.id, author_id, position, company, url, notes, "
         "todo, deadline, applied, created FROM openings s JOIN siteuser u "
         "ON s.author_id = u.id ORDER BY created"
@@ -76,7 +85,7 @@ def home():
             return send_file(file, mimetype="text/txt", attachment_filename='resume.txt', as_attachment=True, cache_timeout=0)
         else:
             pass
-    return render_template("sandbox/home.html", skills=skills, openings=openings)
+    return render_template("sandbox/home.html", skills=skills, openings=openings, experience=experience)
 
 ##Secondary function to return attachment - requires more work
 def return_resume(fname):
@@ -105,8 +114,8 @@ def skills():
                 "INSERT INTO skills (skill, author_id) VALUES (%s, %s)",
                 (skill, g.user[0]),
             )
-            #db.commit()
-            return redirect(url_for("sandbox.home"))
+            # db.commit()
+            return redirect(url_for("sandbox.skills"))
 
 
     return render_template("sandbox/skills.html")
@@ -146,3 +155,39 @@ def openings():
             return redirect(url_for("sandbox.home"))
 
     return render_template("sandbox/openings.html")
+
+##Add experience page
+@bp.route("/experience", methods=("GET", "POST"))
+@login_required
+def experience():
+    """Enter new job experience"""
+    if request.method == "POST":
+        title = request.form["title"]
+        company = request.form["company"]
+        start = request.form["start"]
+        end = request.form["end"]
+        duties = request.form["duties"]
+        error = None
+
+        if not title:
+            error.append("Enter a job title.")
+        if not company:
+            error.append("Enter a company name.")
+        if not start:
+            error.append("Enter the start date for this position.")
+        if not duties:
+            error.append("Enter the job duties for this position.")
+
+        if error is not None:
+            flash(error)
+        else:
+            curr = get_db().cursor()
+            curr.execute(
+                "INSERT INTO experience (title, company, start_date, "
+                "end_date, duties, author_id) VALUES (%s, %s, %s, %s, %s, %s)",
+                (title, company, start, end, duties, g.user[0]),
+            )
+            # db.commit()
+            return redirect(url_for("sandbox.experience"))
+
+    return render_template("sandbox/experience.html")
