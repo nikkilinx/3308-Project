@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for, send_file, send_from_directory
+    Blueprint, flash, g, redirect, render_template, request, url_for, send_file, send_from_directory, session
 )
 from werkzeug.exceptions import abort
 
@@ -16,7 +16,7 @@ bp = Blueprint("sandbox", __name__)
 @bp.route("/home", methods=("GET", "POST"))
 def home():
     curr = get_db().cursor()
-    
+
     user_id = session.get('user_id')
 
     curr.execute(
