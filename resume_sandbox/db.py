@@ -9,11 +9,7 @@ from flask.cli import with_appcontext
 
 def get_db():
     if 'db' not in g:
-        g.db = psycopg2.connect(
-            current_app.config['DATABASE']#,
-            #detect_types=sqlite3.PARSE_DECLTYPES
-        )
-        #g.db.row_factory = sqlite3.Row
+        g.db = psycopg2.connect(current_app.config['DATABASE'])
         g.db.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         g.db.autocommit = True
     return g.db

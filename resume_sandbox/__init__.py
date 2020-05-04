@@ -7,9 +7,8 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     url = urlparse(os.environ['DATABASE_URL'])
     #db = "dbname=%s user=%s password=%s host=%s" % (url.path[1:], url.username, url.password, url.hostname)
-    #db = f"dbname={url.path[1:]} user={url.username} password={url.password} host={url.hostname} port={url.port} sslmode=require"
-    db = "dbname=dej170joc0ll2 user=essrjztaqfkqua password=7f20a5bcfa03daaa6d9fc1667e2c50f38ecdf8863db163f73cff03250b3cfee3 host=ec2-50-17-90-177.compute-1.amazonaws.com port=5432 sslmode=require"
-    #db = "dbname='resume_sandbox' user='dbuser' host='localhost'"
+    db = f"dbname={url.path[1:]} user={url.username} password={url.password} host={url.hostname} port={url.port} sslmode=require"
+    #db = "dbname=dej170joc0ll2 user=essrjztaqfkqua password=7f20a5bcfa03daaa6d9fc1667e2c50f38ecdf8863db163f73cff03250b3cfee3 host=ec2-50-17-90-177.compute-1.amazonaws.com port=5432 sslmode=require"
     app.config.from_mapping(
         SECRET_KEY = '3308',
         DATABASE = db
