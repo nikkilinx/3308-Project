@@ -19,9 +19,14 @@ def home():
 
     user_id = session.get('user_id')
 
-    curr.execute(
+    """curr.execute(
         "SELECT s.id, author_id, skill, entered, username"
         " FROM skills s JOIN siteuser u ON s.author_id = %s"
+        " ORDER BY entered DESC LIMIT 5", (user_id,)
+    )"""
+    curr.execute(
+        "SELECT s.id, author_id, skill, entered, username"
+        " FROM skills s WHERE author_id = %s"
         " ORDER BY entered DESC LIMIT 5", (user_id,)
     )
     skills = curr.fetchall()
