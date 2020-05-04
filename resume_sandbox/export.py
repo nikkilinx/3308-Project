@@ -59,13 +59,13 @@ def export_resume():
             f.write("\n")
         else:
             for i in range(len(exp_position)):
-                f.write(f"{exp_position[i]} at {exp_company[i]}")
+                f.write(f"{exp_position[i][0]} at {exp_company[i][0]}\n")
 
         f.write("\nJob Openings:\n")
         if (op_position == None):
             f.write("\n")
         else:
             for i in range(len(op_position)):
-                f.write(f"{op_position[i]} at {op_company[i]}")
+                f.write(f"{op_position[i][0]} at {op_company[i][0]}\n")
 
     return file
