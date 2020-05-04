@@ -25,7 +25,7 @@ def home():
         " ORDER BY entered DESC LIMIT 5", (user_id,)
     )"""
     curr.execute(
-        "SELECT s.id, author_id, skill, entered, username"
+        "SELECT s.id, author_id, skill, entered"
         " FROM skills s WHERE author_id = %s"
         " ORDER BY entered DESC LIMIT 5", (user_id,)
     )
