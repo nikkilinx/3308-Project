@@ -16,6 +16,9 @@ bp = Blueprint("sandbox", __name__)
 @bp.route("/home", methods=("GET", "POST"))
 def home():
     curr = get_db().cursor()
+    
+    user_id = session.get('user_id')
+
     curr.execute(
         "SELECT s.id, author_id, skill, entered, username"
         " FROM skills s JOIN siteuser u ON s.author_id = u.id"
@@ -41,7 +44,7 @@ def home():
 
     ##Export to .txt
     if request.method == "POST":
-        if request.form["submit_button"] == "Export!!!":
+        if request.form["submit_button"] == "Export":
             """
             ##pull skills from db for resume
             curr.execute(

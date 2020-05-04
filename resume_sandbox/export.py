@@ -51,7 +51,7 @@ def export_resume():
 
         f.write("\nPrevious Experience:\n")
         for i in exp_position:
-            if (fetch2 == None):
+            if (exp_position == None):
                 break
             f.write("%s at " % i[0])
             for j in exp_company:
@@ -59,7 +59,7 @@ def export_resume():
 
         f.write("\nJob Openings:\n")
         for i in op_position:
-            if (fetch2 == None):
+            if (op_position == None):
                 break
             f.write("%s at " % i[0])
             for j in op_company:
