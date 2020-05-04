@@ -33,6 +33,12 @@ def register():
 				'INSERT INTO siteuser (username, password) VALUES (%s, %s)',
 				(username, generate_password_hash(password))
 			)
+			curr.execute(
+				'SELECT * FROM siteuser WHERE username = %s', (username,)
+			)
+			user = curr.fetchone()
+			session.clear()
+			session['user_id'] = user[0]
 			return redirect(url_for('sandbox.home'))
 
 		flash(error)

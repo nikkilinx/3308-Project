@@ -33,7 +33,6 @@ def home():
     )
 
     experience = curr.fetchall()
-    print(experience)
 
     curr.execute(
         "SELECT s.id, author_id, position, company, url, notes, "
