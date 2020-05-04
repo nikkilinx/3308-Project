@@ -75,4 +75,17 @@ def populate(db):
             "'April 22', 'February 14');"
     )
 
+    # Populate experience table
+    c.execute("INSERT INTO experience "
+            "(author_id, title, company, start_date, end_date, duties) "
+            "VALUES ((SELECT id FROM siteuser WHERE username='David'), "
+            "'Bag Boy', 'Safeway', '2012-15-07', '2014-15-09', 'Bag stuff.');"
+            )
+    c.execute("INSERT INTO experience "
+            "(author_id, title, company, start_date, end_date, duties) "
+            "VALUES ((SELECT id FROM siteuser WHERE username='Josh'), "
+            "'Programmer', 'Google', '2018-05-01', '2020-10-08', "
+            "'Update Google Maps backend code.');"
+            )
+
     db.commit()

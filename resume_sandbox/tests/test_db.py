@@ -123,5 +123,34 @@ class SandboxdbTestCase(unittest.TestCase):
         self.assertEqual(result, test_val[0], "'result' does not match expected openings applied")
         print("Passed!")
 
+    def test_experience(self):
+        print("\nTesting 'experience' table functionality. . .")
+        c = self.postgresql.con.cursor()
+        result = 1
+        c.execute("SELECT author_id FROM experience WHERE id=2;")
+        test_val = c.fetchone()
+        self.assertEqual(result, test_val[0], "'result' does not match expected experience author_id")
+        result = 'Programmer'
+        c.execute("SELECT title FROM experience WHERE id=2;")
+        test_val = c.fetchone()
+        self.assertEqual(result, test_val[0], "'result' does not match expected experience title")
+        result = 'Safeway'
+        c.execute("SELECT company FROM experience WHERE id=1;")
+        test_val = c.fetchone()
+        self.assertEqual(result, test_val[0], "'result' does not match expected experience company")
+        result = '2012-15-07'
+        c.execute("SELECT start_date FROM experience WHERE id=1;")
+        test_val = c.fetchone()
+        self.assertEqual(result, test_val[0], "'result' does not match expected experience start_date")
+        result = '2020-10-08'
+        c.execute("SELECT end_date FROM experience WHERE id=2;")
+        test_val = c.fetchone()
+        self.assertEqual(result, test_val[0], "'result' does not match expected experience end_date")
+        result = 'Bag stuff.'
+        c.execute("SELECT duties FROM experience WHERE id=1;")
+        test_val = c.fetchone()
+        self.assertEqual(result, test_val[0], "'result' does not match expected experience duties")
+        print("Passed!")
+
 if __name__ == '__main__':
     unittest.main()
