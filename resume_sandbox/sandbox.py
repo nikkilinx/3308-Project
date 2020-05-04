@@ -21,15 +21,15 @@ def home():
 
     curr.execute(
         "SELECT s.id, author_id, skill, entered, username"
-        " FROM skills s JOIN siteuser u ON s.author_id = u.id"
-        " ORDER BY entered DESC LIMIT 5"
+        " FROM skills s JOIN siteuser u ON s.author_id = %s"
+        " ORDER BY entered DESC LIMIT 5", (user_id,)
     )
     skills = curr.fetchall()
 
     curr.execute(
         "SELECT s.id, author_id, title, company, duties"
-        " FROM experience s JOIN siteuser u ON s.author_id = u.id"
-        " LIMIT 1"
+        " FROM experience s JOIN siteuser u ON s.author_id = %s"
+        " LIMIT 1", (user_id,)
     )
 
     experience = curr.fetchall()
@@ -38,51 +38,13 @@ def home():
     curr.execute(
         "SELECT s.id, author_id, position, company, url, notes, "
         "todo, deadline, applied, created FROM openings s JOIN siteuser u "
-        "ON s.author_id = u.id ORDER BY created"
+        "ON s.author_id = %s ORDER BY created", (user_id,)
     )
     openings = curr.fetchall()
 
     ##Export to .txt
     if request.method == "POST":
         if request.form["submit_button"] == "Export":
-            """
-            ##pull skills from db for resume
-            curr.execute(
-            "SELECT skill, author_id FROM skills s"
-            " JOIN siteuser u ON s.author_id = u.id"
-            )
-            fetch1 = curr.fetchall()
-
-            ##pull job title from db for resume
-            curr.execute(
-            "SELECT position, author_id FROM openings o"
-            " JOIN siteuser u ON o.author_id = u.id"
-            )
-            fetch2 = curr.fetchall()
-
-            ##pull company name from db for resume
-            curr.execute(
-            "SELECT company, author_id FROM openings o"
-            " JOIN siteuser u ON o.author_id = u.id"
-            )
-            fetch3 = curr.fetchall()
-            file = os.path.join(os.getcwd(), 'temp.txt')
-            if os.path.exists(file):
-                os.remove(file)
-            with open(file, 'w') as f:
-                f.write("Skills:\n")
-                for i in fetch1:
-                    f.write("%s\n" % i[0])
-                f.write("\nJob Openings:\n")
-                for j in fetch2:
-                    if (fetch2 == None):
-                        break
-                    f.write("%s at " % j[0])
-                    for k in fetch3:
-                        f.write("%s\n" % k[0])
-                f.write("\nWork History:\n")
-                f.write("\nEducation:\n")
-            """
             file = export_resume()
             return send_file(file, mimetype="text/txt", attachment_filename='resume.txt', as_attachment=True, cache_timeout=0)
         else:
