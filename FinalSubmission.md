@@ -1,7 +1,7 @@
 # Resume Sandbox
 ### by David Havrilla, Nicole Lincoln, and Josh White  
 https://resume-sandbox.herokuapp.com/  
-GitHub Link:  
+GitHub Link:  https://github.com/nikkilinx/3308-Project  
 
 * Source code is available within the "resume_sandbox" file   
 * Test cases can be found within the "resume_sandbox/tests" file      
