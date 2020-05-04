@@ -33,7 +33,7 @@ def register():
 				'INSERT INTO siteuser (username, password) VALUES (%s, %s)',
 				(username, generate_password_hash(password))
 			)
-			return redirect(url_for('sandbox/home.html'))
+			return redirect(url_for('sandbox.home'))
 
 		flash(error)
 	return render_template('auth/register.html')
