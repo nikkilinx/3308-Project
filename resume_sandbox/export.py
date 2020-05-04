@@ -48,26 +48,24 @@ def export_resume():
     if os.path.exists(file):
         os.remove(file)
     with open(file, 'w') as f:
-        f.write("%s's Resume\n" % g.user[1])
+        f.write(f"{g.user[1]}'s Resume\n")
         f.write("<><><><><><><><><><><><><><><><><><><><><><>\n")
         f.write("Skills:\n")
         for i in skills:
             f.write("%s\n" % i[0])
 
         f.write("\nPrevious Experience:\n")
-        for i in exp_position:
-            if (exp_position == None):
-                break
-            f.write("%s at " % i[0])
-            for j in exp_company:
-                f.write("%s\n" % j[0])
+        if (exp_position == None):
+            f.write("\n")
+        else:
+            for i in range(len(exp_position)):
+                f.write(f"{exp_position[i]} at {exp_company[i]}")
 
         f.write("\nJob Openings:\n")
-        for i in op_position:
-            if (op_position == None):
-                break
-            f.write("%s at " % i[0])
-            for j in op_company:
-                f.write("%s\n" % j[0])
+        if (op_position == None):
+            f.write("\n")
+        else:
+            for i in range(len(op_position)):
+                f.write(f"{op_position[i]} at {op_company[i]}")
 
     return file
