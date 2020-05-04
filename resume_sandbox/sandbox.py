@@ -70,15 +70,18 @@ def home():
                         f.write("%s\n" % k[0])
                 f.write("\nWork History:\n")
                 f.write("\nEducation:\n")
-            return_resume(file)
-            os.remove(file)
+            ##return_resume(file)
+            ##os.remove(file)
+            ##send_file() returns attachment - temporary placeholder
+            return send_file(file, mimetype="text/txt", attachment_filename='resume.txt', as_attachment=True, cache_timeout=0)
         else:
             pass
     return render_template("sandbox/home.html", skills=skills, openings=openings)
 
+##Secondary function to return attachment - requires more work
 def return_resume(fname):
     if os.path.exists(fname):
-        return send_file(fname, attachment_filename='resumt.txt', as_attachment=True)
+        return send_file(fname, mimetype="text/txt", attachment_filename='resume.txt', as_attachment=True)
     else:
         pass
 
