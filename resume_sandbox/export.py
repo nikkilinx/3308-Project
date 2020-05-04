@@ -48,6 +48,8 @@ def export_resume():
     if os.path.exists(file):
         os.remove(file)
     with open(file, 'w') as f:
+        f.write("%s's Resume\n" % g.user[1])
+        f.write("<><><><><><><><><><><><><><><><><><><><><><>\n")
         f.write("Skills:\n")
         for i in skills:
             f.write("%s\n" % i[0])

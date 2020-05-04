@@ -33,8 +33,8 @@ CREATE TABLE experience (
     author_id INTEGER NOT NULL,
     title TEXT NOT NULL,
     company TEXT NOT NULL,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL,
+    start_date TEXT NOT NULL,
+    end_date TEXT,
     duties TEXT,
     FOREIGN KEY (author_id) REFERENCES siteuser (id)
 );
