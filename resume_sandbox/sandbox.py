@@ -5,6 +5,7 @@ from werkzeug.exceptions import abort
 
 from resume_sandbox.auth import login_required
 from resume_sandbox.db import get_db
+from resume_sandbox.export import export_resume
 
 import sys
 import psycopg2
@@ -41,7 +42,7 @@ def home():
     ##Export to .txt
     if request.method == "POST":
         if request.form["submit_button"] == "Export!!!":
-
+            """
             ##pull skills from db for resume
             curr.execute(
             "SELECT skill, author_id FROM skills s"
@@ -62,8 +63,7 @@ def home():
             " JOIN siteuser u ON o.author_id = u.id"
             )
             fetch3 = curr.fetchall()
-            p = os.getcwd()
-            file = os.path.join(p, 'temp.txt')
+            file = os.path.join(os.getcwd(), 'temp.txt')
             if os.path.exists(file):
                 os.remove(file)
             with open(file, 'w') as f:
@@ -79,20 +79,12 @@ def home():
                         f.write("%s\n" % k[0])
                 f.write("\nWork History:\n")
                 f.write("\nEducation:\n")
-            ##return_resume(file)
-            ##os.remove(file)
-            ##send_file() returns attachment - temporary placeholder
+            """
+            file = export_resume()
             return send_file(file, mimetype="text/txt", attachment_filename='resume.txt', as_attachment=True, cache_timeout=0)
         else:
             pass
     return render_template("sandbox/home.html", skills=skills, openings=openings, experience=experience)
-
-##Secondary function to return attachment - requires more work
-def return_resume(fname):
-    if os.path.exists(fname):
-        return send_file(fname, mimetype="text/txt", attachment_filename='resume.txt', as_attachment=True)
-    else:
-        pass
 
 ##Skills input
 @bp.route("/skills", methods=("GET", "POST"))
