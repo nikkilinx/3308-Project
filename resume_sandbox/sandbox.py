@@ -19,21 +19,16 @@ def home():
 
     user_id = session.get('user_id')
 
-    """curr.execute(
-        "SELECT s.id, author_id, skill, entered, username"
-        " FROM skills s JOIN siteuser u ON s.author_id = %s"
-        " ORDER BY entered DESC LIMIT 5", (user_id,)
-    )"""
     curr.execute(
         "SELECT s.id, author_id, skill, entered"
         " FROM skills s WHERE author_id = %s"
-        " ORDER BY entered DESC LIMIT 5", (user_id,)
+        " ORDER BY entered DESC LIMIT 5", (g.user[0],)
     )
     skills = curr.fetchall()
 
     curr.execute(
         "SELECT s.id, author_id, title, company, duties"
-        " FROM experience s JOIN siteuser u ON s.author_id = %s"
+        " FROM experience s WHERE author_id = %s"
         " LIMIT 1", (user_id,)
     )
 
@@ -42,8 +37,8 @@ def home():
 
     curr.execute(
         "SELECT s.id, author_id, position, company, url, notes, "
-        "todo, deadline, applied, created FROM openings s JOIN siteuser u "
-        "ON s.author_id = %s ORDER BY created", (user_id,)
+        "todo, deadline, applied, created FROM openings s WHERE "
+        "author_id = %s ORDER BY created", (user_id,)
     )
     openings = curr.fetchall()
 
